@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seoul Bike Sharing Demand Prediction</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body style="background: #31385af7;">
+ <div class="login">
+	<h2>Seoul Bike Sharing Demand Predictions</h2>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post">
+		<input type="number" name="Hour" placeholder="Hour" min="0" max="23" required="required" />
+        <input type="number" step="any" name="Temperature(°C)" placeholder="Temperature(°C)" required="required" />
+		<input type="number" name="Humidity(%)" placeholder="Humidity(%)" required="required" />
+		<input type="number" step="any" name="Wind speed (m/s)" placeholder="Wind speed (m/s)" required="required" />
+		<input type="number" name="Visibility (10m)" placeholder="Visibility (10m)" required="required" />
+		<input type="number" step="any" name="Solar Radiation (MJ/m2)" placeholder="Solar Radiation (MJ/m2)" required="required" />
+		<input type="number" step="any" name="Rainfall(mm)" placeholder="Rainfall(mm)" required="required" />
+		<input type="number" step="any" name="Snowfall (cm)" placeholder="Snowfall (cm)" required="required" />
+		<input list="seasons" id="season" name="season" placeholder="Seasons" required="required" >
+			<datalist id="seasons">
+				<option value="Autumn">
+				<option value="Spring">
+				<option value="Summer">
+				<option value="Winter">
+			</datalist>
+		</input>
+		<input list="holidays" id="holiday" name="holiday" placeholder="Holiday" required="required" >
+			<datalist id="holidays">
+				<option value="Holiday">
+				<option value="No Holiday">
+			</datalist>
+		</input>
+		<input list="functioningDays" id="functioningDay" name="functioningDay" placeholder="Functioning Day" required="required" >
+			<datalist id="functioningDays">
+				<option value="Yes">
+				<option value="No">
+			</datalist>
+		</input>
+		<input type="number" name="Year" placeholder="Year" min="1900" max="2100"  required="required" />
+		<input type="number" name="Month" placeholder="Month" min="1" max="12"  required="required" />
+		<input type="number" name="Day" placeholder="Day" min="1" max="31"  required="required" />
+		<button type="submit" onclick="doValidate();" class="block">Predict Rented Bike Count</button>
+    </form>
+	
+ </div>
+</body>
+<script>
+
+// Function to test validity of input options
+function is_valid_datalist_value(idDataList, inputValue) {
+  var option = document.querySelector("#" + idDataList + " option[value='" + inputValue + "']");
+  if (option != null) {
+    return option.value.length > 0;
+  }
+  return false;
+}
+
+function doValidate() {
+  if (!(is_valid_datalist_value('seasons', document.getElementById('season').value))) {
+    alert("Choose the correct value for Season!");
+  } 
+  if (!(is_valid_datalist_value('holidays', document.getElementById('holiday').value))) {
+    alert("Choose the correct value for Holiday!");
+  } 
+  if (!(is_valid_datalist_value('functioningDays', document.getElementById('functioningDay').value))) {
+    alert("Choose the correct value of Functioning Day!");
+  } 
+}
+</script>
+</html>
